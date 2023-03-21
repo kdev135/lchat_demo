@@ -9,19 +9,14 @@ import '../models/ui_models/text_field_model.dart';
 import '../operations/services/send_message.dart';
 import 'home_screen.dart';
 
-final List<String> adminAccounts = [
-  'VXkSEzeaW1Ulw9GWhtfyhk6FHvA3',
-  'RUU4uq2qsZTHFny2XTZIWRkDkYe2',
-  'a0wffzdqn9ZF8rIWSS7yzgmzjtx2'
-];
-
 final FirebaseAuth auth = FirebaseAuth.instance;
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key, required this.recipientId});
   final String recipientId;
+  final String adminAccount = 'a0wffzdqn9ZF8rIWSS7yzgmzjtx2';
 
-  late final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  late final currentUser = FirebaseAuth.instance.currentUser!;
   final TextEditingController messageTextController = TextEditingController();
 
   @override
@@ -45,14 +40,15 @@ class ChatScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Column(
           children: [
-            const Card(
+            Card(
                 child: Padding(
               padding: EdgeInsets.all(5.0),
-              child: Text('Chatting with: General information support agent'),
+              child: Text(
+                  'Chatting with: ${currentUser.uid != adminAccount ? 'A general information agent' : currentUser.email}'),
             )),
             Expanded(
               child: SentMessages(
-                currentUserId: currentUserId,
+                currentUserId: currentUser.uid,
                 recipientId: recipientId,
               ),
             ),
@@ -132,7 +128,6 @@ class SentMessages extends StatelessWidget {
             List messageParties = message['parties'];
 
             if (!messageParties.contains(currentUserId)) {
-           
               return const Visibility(
                 child: Text(''),
               );

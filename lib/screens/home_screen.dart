@@ -19,11 +19,13 @@ class HomeScreen extends StatelessWidget {
           centerTitle: true,
           shadowColor: Colors.transparent,
           backgroundColor: Colors.transparent,
-          actions: const[ LogoutButton()],
+          actions: const [LogoutButton()],
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          navToChat(context, recipientId: adminAccount);
-        }),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              navToChat(context, recipientId: adminAccount);
+            }),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: ChatInstances(),
@@ -74,7 +76,6 @@ class ChatInstances extends StatelessWidget {
                         TextButton(
                             child: Text(sender),
                             onPressed: () {
-                             
                               navToChat(context, recipientId: sender.toString());
                             }),
                       ],
@@ -106,7 +107,7 @@ class ChatInstances extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    'Tap on the + button below to start a coversation',
+                    'Tap on the + button below to initiate coversation',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16),
                   ),
