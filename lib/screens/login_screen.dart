@@ -6,7 +6,7 @@ import '../models/ui_models/text_field_model.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
-  FirebaseAuth auth = FirebaseAuth.instance;
+ final FirebaseAuth auth = FirebaseAuth.instance;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -43,14 +43,14 @@ class LoginScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Email',
                             ),
                             TextFieldModel(textController: emailController,),
                             const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               'Password',
                             ),
                             TextFieldModel(

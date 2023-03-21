@@ -1,16 +1,13 @@
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lchat/components/logout_button.dart';
 import 'package:lchat/operations/services/get_messages.dart';
-import 'dart:convert';
 
 import '../models/ui_models/text_field_model.dart';
 import '../operations/services/send_message.dart';
 import 'home_screen.dart';
-import 'login_screen.dart';
 
 final List<String> adminAccounts = [
   'VXkSEzeaW1Ulw9GWhtfyhk6FHvA3',
@@ -27,11 +24,6 @@ class ChatScreen extends StatelessWidget {
   late final currentUserId = FirebaseAuth.instance.currentUser!.uid;
   final TextEditingController messageTextController = TextEditingController();
 
-  final admin_names = {
-    'VXkSEzeaW1Ulw9GWhtfyhk6FHvA3': 'Accounts support agent',
-    'RUU4uq2qsZTHFny2XTZIWRkDkYe2': 'Models support agent',
-    'a0wffzdqn9ZF8rIWSS7yzgmzjtx2': 'General information support agent'
-  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,14 +32,12 @@ class ChatScreen extends StatelessWidget {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(
-                 
-                ),
+                builder: (context) => HomeScreen(),
               ));
         }),
         title: const Text('L O N G E V I T Y  C H A T'),
         centerTitle: true,
-        actions:const [
+        actions: const [
           LogoutButton(),
         ],
       ),
@@ -55,10 +45,10 @@ class ChatScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Column(
           children: [
-            Card(
+            const Card(
                 child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Text('Chatting with: ${ admin_names[recipientId] ?? recipientId}'),
+              padding: EdgeInsets.all(5.0),
+              child: Text('Chatting with: General information support agent'),
             )),
             Expanded(
               child: SentMessages(
@@ -68,7 +58,7 @@ class ChatScreen extends StatelessWidget {
             ),
             Container(
               color: Colors.grey.shade100,
-              margin: EdgeInsets.symmetric(horizontal: 05),
+              margin: const EdgeInsets.symmetric(horizontal: 05),
               child: Row(
                 children: [
                   Expanded(
@@ -79,7 +69,7 @@ class ChatScreen extends StatelessWidget {
                           hintText: 'Write a message',
                           suffixIcon: IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.attach_file_sharp,
                               color: Colors.grey,
                             ),
@@ -110,10 +100,10 @@ class ChatScreen extends StatelessWidget {
 
 //Build a widget list of the messages
 class SentMessages extends StatelessWidget {
-  SentMessages({super.key, required this.currentUserId, required this.recipientId});
+  const SentMessages({super.key, required this.currentUserId, required this.recipientId});
 
-  late final String currentUserId;
-  late final String recipientId;
+  final String currentUserId;
+  final String recipientId;
 
   @override
   Widget build(BuildContext context) {
@@ -126,14 +116,12 @@ class SentMessages extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         } catch (e) {
           debugPrint('Something went wrong: $e');
         }
         final messages = snapshot.data!.docs;
-        final mess = snapshot.data;
-        print(mess);
 
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
@@ -141,6 +129,14 @@ class SentMessages extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             final message = messages[index];
 
+            List messageParties = message['parties'];
+
+            if (!messageParties.contains(currentUserId)) {
+           
+              return const Visibility(
+                child: Text(''),
+              );
+            }
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: BubbleNormal(

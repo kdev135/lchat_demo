@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lchat/screens/home_screen.dart';
 
 /// Authenticate with password and email
-void emailPasswordAuth({required String email, required String password, required BuildContext context})  async{
+void emailPasswordAuth({required String email, required String password, required BuildContext context})  {
   try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+     FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -14,12 +14,12 @@ void emailPasswordAuth({required String email, required String password, require
   context,
   MaterialPageRoute(builder: (context) => HomeScreen()),
 );
-    print('Super! you are logged in');
+    
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
-      print('No user found for that email.');
+      debugPrint('No user found for that email.');
     } else if (e.code == 'wrong-password') {
-      print('Email or password is wrong.');
+      debugPrint('Email or password is wrong.');
     }
   }
 }

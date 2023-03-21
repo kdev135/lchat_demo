@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:lchat/components/logout_button.dart';
 import 'package:lchat/operations/nav_to_chat.dart';
 import 'package:lchat/operations/services/fetch_chat_instances.dart';
-import 'package:lchat/screens/chat_screen.dart';
 
-final String adminAccount = 'a0wffzdqn9ZF8rIWSS7yzgmzjtx2';
+const String adminAccount = 'a0wffzdqn9ZF8rIWSS7yzgmzjtx2';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -21,7 +19,7 @@ class HomeScreen extends StatelessWidget {
           centerTitle: true,
           shadowColor: Colors.transparent,
           backgroundColor: Colors.transparent,
-          actions: [LogoutButton()],
+          actions: const[ LogoutButton()],
         ),
         floatingActionButton: FloatingActionButton(onPressed: () {
           navToChat(context, recipientId: adminAccount);
@@ -48,7 +46,7 @@ class ChatInstances extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         } catch (e) {
           debugPrint('Something went wrong: $e');
@@ -72,11 +70,11 @@ class ChatInstances extends StatelessWidget {
                     padding: const EdgeInsets.all(5.0),
                     child: Row(
                       children: [
-                        Text('Conversation Id: '),
+                        const Text('Conversation Id: '),
                         TextButton(
                             child: Text(sender),
                             onPressed: () {
-                              print('$sender is sender');
+                             
                               navToChat(context, recipientId: sender.toString());
                             }),
                       ],
@@ -86,7 +84,7 @@ class ChatInstances extends StatelessWidget {
               },
             );
           } else {
-            return Text('Clent messages show here');
+            return const Text('Clent messages show here');
           }
         }
 

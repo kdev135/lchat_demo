@@ -26,9 +26,7 @@ class TextFieldModel extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
           ),
           contentPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10)),
-      onChanged: (value) {
-        print(textController.text);
-      },
+  
     );
   }
 }

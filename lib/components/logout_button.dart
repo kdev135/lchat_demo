@@ -15,7 +15,7 @@ class LogoutButton extends StatelessWidget {
           MaterialPageRoute(builder: (context) => LoginScreen()),
         );
       },
-      icon: Icon(Icons.exit_to_app_outlined, color: Colors.grey,),
+      icon: const Icon(Icons.exit_to_app_outlined, color: Colors.grey,),
       tooltip: 'Log out',
     );
   }
